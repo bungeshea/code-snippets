@@ -78,6 +78,7 @@ class Import {
 				'priority',
 				'shared_network',
 				'modified',
+				'cloud_id',
 			];
 
 			foreach ( $import_fields as $field ) {
@@ -192,7 +193,10 @@ class Import {
 			}
 
 			// Save the snippet and increase the counter if successful.
-			$snippet_id = save_snippet( $snippet );
+			$saved_snippet = save_snippet( $snippet );
+
+			// Get ID of the saved snippet as save_snippet() returns complete snippet object.
+			$snippet_id = $saved_snippet->id;
 
 			if ( $snippet_id ) {
 				$imported[] = $snippet_id;

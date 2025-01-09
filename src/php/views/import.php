@@ -9,7 +9,7 @@
 namespace Code_Snippets;
 
 /**
- * Loaded from the Import_Menu class.
+ * Loaded from import menu.
  *
  * @var Import_Menu $this
  */

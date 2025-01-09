@@ -55,7 +55,7 @@ class Welcome_Menu extends Admin_Menu {
 	 * @return array<string, array{url: string, icon: string, label: string}>
 	 */
 	protected function get_header_links(): array {
-		return [
+		$links = [
 			'cloud'     => [
 				'url'   => 'https://codesnippets.cloud',
 				'icon'  => 'cloud',
@@ -76,11 +76,16 @@ class Welcome_Menu extends Admin_Menu {
 				'icon'  => 'discord',
 				'label' => __( 'Discord', 'code-snippets' ),
 			],
-			'pro'       => [
+		];
+
+		if ( ! code_snippets()->licensing->is_licensed() ) {
+			$links['pro'] = [
 				'url'   => 'https://codesnippets.pro/pricing/',
 				'icon'  => 'cart',
 				'label' => __( 'Get Pro', 'code-snippets' ),
-			],
-		];
+			];
+		}
+
+		return $links;
 	}
 }

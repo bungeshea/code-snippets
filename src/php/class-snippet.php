@@ -37,6 +37,7 @@ use Exception;
  * @property-read int               $modified_timestamp The last modification date in Unix timestamp format.
  * @property-read DateTime          $modified_local     The last modification date in the local timezone.
  * @property-read string            $type_desc          Human-readable description of the snippet type.
+ * @property-read boolean           $is_pro             Whether the snippet type is pro-only.
  */
 class Snippet extends Data_Item {
 
@@ -437,6 +438,13 @@ class Snippet extends Data_Item {
 		$date_format = sprintf( $date_format, get_option( 'date_format' ), get_option( 'time_format' ) );
 
 		return sprintf( '<span title="%s">%s</span>', $local_time->format( $date_format ), $human_time );
+	}
+
+	/**
+	 * Determine whether the current snippet type is pro-only.
+	 */
+	private function get_is_pro(): bool {
+		return 'css' === $this->type || 'js' === $this->type;
 	}
 
 	/**

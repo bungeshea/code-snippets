@@ -66,6 +66,25 @@ class Admin {
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		add_filter( 'debug_information', array( $this, 'debug_information' ) );
 		add_action( 'code_snippets/admin/manage', array( $this, 'print_notices' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
+	}
+
+	/**
+	 * Enqueue general admin assets.
+	 *
+	 * @param string|null $hook_name Current plugin page hook name.
+	 *
+	 * @return void
+	 */
+	public function enqueue_admin_assets( ?string $hook_name ) {
+		if ( 'plugins.php' === $hook_name ) {
+			wp_enqueue_style(
+				'code-snippets-plugins-css',
+				plugins_url( 'dist/plugins.css', PLUGIN_FILE ),
+				[],
+				PLUGIN_VERSION
+			);
+		}
 	}
 
 	/**
@@ -104,7 +123,7 @@ class Admin {
 
 		$format = '<a href="%1$s" title="%2$s">%3$s</a>';
 
-		return array_merge(
+		$actions = array_merge(
 			[
 				sprintf(
 					$format,
@@ -119,16 +138,18 @@ class Admin {
 					esc_html__( 'Snippets', 'code-snippets' )
 				),
 			],
-			$actions,
-			[
-				sprintf(
-					'<a href="%1$s" title="%2$s" style="color: #d46f4d; font-weight: bold;" target="_blank">%3$s</a>',
-					'https://snipco.de/JE2i',
-					esc_attr__( 'Upgrade to Code Snippets Pro', 'code-snippets' ),
-					esc_html__( 'Go Pro', 'code-snippets' )
-				),
-			]
+			$actions
 		);
+
+		if ( ! code_snippets()->licensing->is_licensed() ) {
+			$actions[] = sprintf(
+				'<a href="%1$s" title="%2$s" style="color: #d46f4d; font-weight: bold;" target="_blank">%3$s</a>',
+				'https://snipco.de/JE2i',
+				esc_attr__( 'Upgrade to Code Snippets Pro', 'code-snippets' ),
+				esc_html__( 'Go Pro', 'code-snippets' )
+			);
+		}
+		return $actions;
 	}
 
 	/**
@@ -307,10 +328,13 @@ class Admin {
 	 * @return void
 	 */
 	public static function render_snippet_type_tab( string $type_name, string $label, string $current_type = '' ) {
+		$cloud_tabs = [ 'cloud', 'cloud_search', 'bundles' ];
+		$nav_tab_inactive = false;
+
 		if ( $type_name === $current_type ) {
 			printf( '<a class="nav-tab nav-tab-active" data-snippet-type="%s">', esc_attr( $type_name ) );
 
-		} elseif ( Plugin::is_pro_type( $type_name ) ) {
+		} elseif ( ! code_snippets()->licensing->is_licensed() && Plugin::is_pro_type( $type_name ) ) {
 			printf(
 				'<a class="nav-tab nav-tab-inactive" data-snippet-type="%s" title="%s" href="https://codesnippets.pro/pricing/" target="_blank">',
 				esc_attr( $type_name ),
@@ -320,14 +344,25 @@ class Admin {
 		} else {
 			$current_url = remove_query_arg( [ 'cloud_select', 'cloud_search' ] );
 
+			if ( in_array( $type_name, $cloud_tabs, true ) && ! code_snippets()->cloud_api->is_cloud_key_verified() ) {
+				$nav_tab_inactive = true;
+			}
+
 			printf(
-				'<a class="nav-tab" href="%s" data-snippet-type="%s">',
+				'<a class="nav-tab %s" href="%s" data-snippet-type="%s">',
+				$nav_tab_inactive ? 'nav-tab-inactive' : '',
 				esc_url( add_query_arg( 'type', $type_name, $current_url ) ),
 				esc_attr( $type_name )
 			);
 		}
 
-		echo esc_html( $label );
+		if ( 'all' === $type_name ) {
+			$label_class = 'all-snippets-label';
+		} else {
+			$label_class = 'snippet-label';
+		}
+
+		echo '<span class="' . $label_class . '">', esc_html( $label ), '</span>';
 
 		switch ( $type_name ) {
 			case 'all':

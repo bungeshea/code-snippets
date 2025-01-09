@@ -25,6 +25,7 @@ namespace Code_Snippets\Settings;
  * @property-read mixed                 $default            Default setting value.
  *
  * @property-read string                $input_name         Value of `name` HTML attribute on an input element.
+ * @property-read string                $element_id
  */
 class Setting_Field {
 
@@ -191,9 +192,11 @@ class Setting_Field {
 	 */
 	private function render_text_field() {
 		printf(
-			'<input type="text" name="%s" value="%s" class="regular-text">',
+			'<input id="%s" type="text" name="%s" value="%s" class="regular-text %s">',
+			esc_attr( $this->element_id ),
 			esc_attr( $this->input_name ),
-			esc_attr( $this->get_saved_value() )
+			esc_attr( $this->get_saved_value() ),
+			esc_attr( $this->element_id )
 		);
 
 		if ( $this->label ) {

@@ -19,3 +19,5 @@ document.addEventListener('readystatechange', () => {
 		Prism.highlightAll()
 	}
 })
+
+window.CODE_SNIPPETS_PRISM = Prism

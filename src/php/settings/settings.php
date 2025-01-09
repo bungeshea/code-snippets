@@ -224,6 +224,7 @@ function sanitize_setting_value( array $field, $input_value ) {
 			return $results;
 
 		case 'text':
+		case 'hidden':
 			return trim( sanitize_text_field( $input_value ) );
 
 		case 'callback':
@@ -253,6 +254,7 @@ function process_settings_actions( array $input ): ?array {
 			'updated'
 		);
 
+		delete_option( 'code_snippets_cloud_settings' );
 		return [];
 	}
 

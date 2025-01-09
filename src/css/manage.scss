@@ -297,3 +297,30 @@ $inactive-color: #ccc;
 .code-snippets-notice a.notice-dismiss {
 	text-decoration: none;
 }
+
+.refresh-button-container {
+	display: flex;
+	align-items: center;
+    justify-content: flex-start;
+	margin-top: 15px;
+	margin-bottom: -39px;
+	gap: 7px;
+}
+
+#refresh-button {
+	width: 30px;
+	padding: 0;
+	font-size: 20px;
+	line-height: 1.4;
+}
+
+@media screen and (max-width: 1190px) {
+	.nav-tab {
+		.snippet-label {
+			display: none;
+		}
+		.cloud-badge{
+			margin-right: 10px;
+		}
+	}
+}

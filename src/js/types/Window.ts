@@ -1,3 +1,4 @@
+import Prism from 'prismjs'
 import type tinymce from 'tinymce'
 import type { Snippet } from './Snippet'
 import type { CodeEditorInstance, EditorOption, WordPressCodeEditor } from './WordPressCodeEditor'
@@ -15,6 +16,7 @@ declare global {
 		readonly wpActiveEditor?: string
 		code_snippets_editor_preview?: CodeEditorInstance
 		readonly code_snippets_editor_settings: EditorOption[]
+		CODE_SNIPPETS_PRISM?: typeof Prism
 		readonly CODE_SNIPPETS?: {
 			isLicensed: boolean
 			restAPI: {
@@ -29,19 +31,20 @@ declare global {
 				manage: string
 				addNew: string
 				edit: string
+				connectCloud: string
 			}
 		}
 		readonly CODE_SNIPPETS_EDIT?: {
 			snippet: Snippet
+			pageTitleActions: Record<string, string>
 			isPreview: boolean
-			enableTags: boolean
+			isLicensed: boolean
 			enableDownloads: boolean
 			scrollToNotices: boolean
 			extraSaveButtons: boolean
 			activateByDefault: boolean
 			enableDescription: boolean
 			editorTheme: string
-			pageTitleActions: Record<string, string>
 			tagOptions: {
 				enabled: boolean
 				allowSpaces: boolean

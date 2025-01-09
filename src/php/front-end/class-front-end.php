@@ -132,23 +132,29 @@ class Front_End {
 		}
 
 		// Loop through the posts, checking for an existing shortcode, short-circuiting if possible.
-		$found_shortcode = false;
+		$found_shortcode_content = null;
 
 		foreach ( $posts as $post ) {
 			if ( false !== stripos( $post->post_content, '[' . self::SOURCE_SHORTCODE ) ||
 			     false !== strpos( $post->post_content, '<!-- wp:code-snippets/source ' ) ) {
-				$found_shortcode = true;
+				$found_shortcode_content = $post->post_content;
 				break;
 			}
 		}
 
 		// Load assets on the appropriate hook if a matching shortcode was found.
-		if ( $found_shortcode ) {
+		if ( null !== $found_shortcode_content ) {
 			$this->register_prism_assets();
 
 			add_action(
 				'wp_enqueue_scripts',
-				function () {
+				function () use ( $found_shortcode_content ) {
+					foreach ( self::get_prism_themes() as $theme => $label ) {
+						if ( strpos( $found_shortcode_content, "is-style-prism-$theme" ) ) {
+							wp_enqueue_style( self::get_prism_theme_style_handle( $theme ) );
+						}
+					}
+
 					wp_enqueue_style( self::PRISM_HANDLE );
 					wp_enqueue_script( self::PRISM_HANDLE );
 				},
@@ -266,7 +272,7 @@ class Front_End {
 		$original_atts = $atts;
 
 		$atts = shortcode_atts(
-			array(
+			[
 				'id'         => 0,
 				'snippet_id' => 0,
 				'network'    => false,
@@ -274,7 +280,7 @@ class Front_End {
 				'format'     => false,
 				'shortcodes' => false,
 				'debug'      => false,
-			),
+			],
 			$atts,
 			self::CONTENT_SHORTCODE
 		);
@@ -288,7 +294,7 @@ class Front_End {
 
 		// Render the source code if this is not a shortcode snippet.
 		if ( 'content' !== $snippet->scope ) {
-			return $snippet->id ? $this->render_snippet_source( $snippet ) : '';
+			return $snippet->id ? $this->render_snippet_source( $snippet ) : $this->invalid_id_warning( $snippet->id );
 		}
 
 		// If the snippet is inactive, either display a message or render nothing.

@@ -162,6 +162,7 @@ class Plugin {
 		$edit = array( 'edit', 'edit-snippet' );
 		$import = array( 'import', 'import-snippets', 'import-code-snippets' );
 		$settings = array( 'settings', 'snippets-settings' );
+		$cloud = array( 'cloud', 'cloud-snippets' );
 		$welcome = array( 'welcome', 'getting-started', 'code-snippets' );
 
 		if ( in_array( $menu, $edit, true ) ) {
@@ -172,6 +173,8 @@ class Plugin {
 			return 'import-code-snippets';
 		} elseif ( in_array( $menu, $settings, true ) ) {
 			return 'snippets-settings';
+		} elseif ( in_array( $menu, $cloud, true ) ) {
+			return 'snippets&type=cloud';
 		} elseif ( in_array( $menu, $welcome, true ) ) {
 			return 'code-snippets-welcome';
 		} else {
@@ -316,10 +319,10 @@ class Plugin {
 			array(
 				'php'          => __( 'Functions', 'code-snippets' ),
 				'html'         => __( 'Content', 'code-snippets' ),
-				'cloud_search' => __( 'Cloud Search', 'code-snippets' ),
 				'css'          => __( 'Styles', 'code-snippets' ),
 				'js'           => __( 'Scripts', 'code-snippets' ),
 				'cloud'        => __( 'Codevault', 'code-snippets' ),
+				'cloud_search' => __( 'Cloud Search', 'code-snippets' ),
 				'bundles'      => __( 'Bundles', 'code-snippets' ),
 			)
 		);
@@ -348,17 +351,21 @@ class Plugin {
 			$handle,
 			'CODE_SNIPPETS',
 			[
-				'isLicensed' => false,
-				'restAPI'    => [
-					'base'     => esc_url_raw( rest_url() ),
-					'snippets' => esc_url_raw( rest_url( Snippets_REST_Controller::get_base_route() ) ),
-					'nonce'    => wp_create_nonce( 'wp_rest' ),
+				'isLicensed'       => $this->licensing->is_licensed(),
+				'isCloudConnected' => Cloud_API::is_cloud_connection_available(),
+				'restAPI'          => [
+					'base'       => esc_url_raw( rest_url() ),
+					'snippets'   => esc_url_raw( rest_url( Snippets_REST_Controller::get_base_route() ) ),
+					'cloud'      => esc_url_raw( rest_url( Cloud_REST_API::get_base_route() ) ),
+					'nonce'      => wp_create_nonce( 'wp_rest' ),
+					'localToken' => $this->cloud_api->get_local_token(),
 				],
-				'urls'       => [
-					'plugin' => plugins_url( '', PLUGIN_FILE ),
-					'manage' => $this->get_menu_url(),
-					'edit'   => $this->get_menu_url( 'edit' ),
-					'addNew' => $this->get_menu_url( 'add' ),
+				'urls'             => [
+					'plugin'       => esc_url_raw( plugins_url( '', PLUGIN_FILE ) ),
+					'manage'       => esc_url_raw( $this->get_menu_url() ),
+					'edit'         => esc_url_raw( $this->get_menu_url( 'edit' ) ),
+					'addNew'       => esc_url_raw( $this->get_menu_url( 'add' ) ),
+					'connectCloud' => esc_url_raw( Cloud_API::get_connect_cloud_url() ),
 				],
 			]
 		);
