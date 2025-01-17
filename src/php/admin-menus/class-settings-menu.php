@@ -2,6 +2,7 @@
 
 namespace Code_Snippets;
 
+use WP_Error;
 use const Code_Snippets\Settings\CACHE_KEY;
 use const Code_Snippets\Settings\OPTION_GROUP;
 use const Code_Snippets\Settings\OPTION_NAME;
@@ -58,7 +59,7 @@ class Settings_Menu extends Admin_Menu {
 		wp_enqueue_style(
 			'code-snippets-settings',
 			plugins_url( 'dist/settings.css', $plugin->file ),
-			[],
+			[ 'code-editor' ],
 			$plugin->version
 		);
 	}
@@ -135,7 +136,6 @@ class Settings_Menu extends Admin_Menu {
 
 				settings_fields( OPTION_GROUP );
 				$this->do_settings_tabs();
-
 				?>
 				<p class="submit">
 					<?php
@@ -189,10 +189,10 @@ class Settings_Menu extends Admin_Menu {
 				call_user_func( $section['callback'], $section );
 			}
 
-			printf( '<table class="form-table settings-section %s-settings">', esc_attr( $section['id'] ) );
+			printf( '<div class="settings-section %s-settings"><table class="form-table">', esc_attr( $section['id'] ) );
 
 			do_settings_fields( self::SETTINGS_PAGE, $section['id'] );
-			echo '</table>';
+			echo '</table></div>';
 		}
 	}
 

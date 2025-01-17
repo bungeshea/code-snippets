@@ -189,7 +189,10 @@ $plugin_types = [
 
 <script type="text/javascript">
 	function hideLoadingAnimation() {
-		document.getElementById('csp-loading-spinner').style.display = 'none'
-		document.getElementById('csp-changes-img').style.display = 'block'
+		const spinner = document.getElementById<HTMLDivElement>('csp-loading-spinner')
+		const image = document.getElementById<HTMLDivElement>('csp-changes-img')
+
+		spinner.style.display = 'none'
+		image.style.display = 'block'
 	}
 </script>

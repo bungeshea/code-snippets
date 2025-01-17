@@ -49,8 +49,8 @@ require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 /**
  * Retrieve the instance of the main plugin class.
  *
- * @since 2.6.0
  * @return Plugin
+ * @since 2.6.0
  */
 function code_snippets(): Plugin {
 	static $plugin;

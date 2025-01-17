@@ -24,6 +24,10 @@
 	margin-right: 3px;
 }
 
+.nav-tab-inactive .cloud-badge {
+    color: #a7aaad;
+}
+
 .nav-tab-inactive[data-snippet-type=cloud]:hover .cloud-badge {
 	color: #00bcd4;
 }
@@ -32,8 +36,20 @@
 	color: #00bcd4;
 }
 
+.cloud-synced {
+	color: #00bcd4;
+}
+
 .cloud-downloaded {
 	color: #e91e63;
+}
+
+.nav-tab-inactive[data-snippet-type=cloud_search]:hover .cloud-badge {
+	color: #e91e63;
+}
+
+.nav-tab-inactive[data-snippet-type=bundles]:hover .cloud-badge {
+	color: #50575e;
 }
 
 .cloud-not-downloaded {
@@ -52,6 +68,10 @@
 .cloud-table > tbody > tr {
 	height: 80px;
 	box-shadow: inset 0 -1px 0 rgb(0 0 0 / 10%);
+}
+
+.cloud-table > tbody > tr > td {
+	max-width: 250px;
 }
 
 .cloud-table tbody .active-snippet .column-name {
@@ -245,6 +265,36 @@
 	justify-content: space-between;
 }
 
+.cloud-connect-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-height: 35px;
+	margin: 0 3px;
+	float: right;
+	gap: 5px;
+}
+
+.cloud-status-dot {
+	height: 10px;
+	width: 10px;
+	background-color: #ce0000;
+	border-radius: 50%;
+
+
+	.cloud-connect-active & {
+		background-color: #25a349;
+	}
+}
+
+.cloud-connect-text {
+	color: #ce0000;
+
+	.cloud-connect-active & {
+		color: #2e7d32;
+	}
+}
+
 .voted-info {
 	display: inline-flex;
 	gap: 3px;
@@ -271,7 +321,6 @@
 	}
 }
 
-
 .ai-verified-snippet .badge, .snippet-type-badge[data-type=ai-verified] {
 	background-color: #ccfbf1;
 	color: #0f766e;
@@ -286,7 +335,6 @@
 	background-color: #fefce8;
 	color: #a16207;
 }
-
 
 .unverified-snippet .badge, .snippet-type-badge[data-type=unverified] {
 	background-color: #fff1f2;
@@ -352,6 +400,12 @@
 
 .tooltip-text-link {
 	text-decoration: underline;
+}
+
+.tooltip-box .cloud-key {
+    right: 0;
+    color: white;
+    width: 450px;
 }
 
 .plugin-card-bottom {

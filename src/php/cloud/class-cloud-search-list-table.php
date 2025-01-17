@@ -1,10 +1,8 @@
 <?php
 /**
- * Contains the class for handling the snippets table
+ * Contains the class for handling the cloud search results table
  *
  * @package Code_Snippets
- *
- * phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
 namespace Code_Snippets\Cloud;
@@ -90,12 +88,15 @@ class Cloud_Search_List_Table extends WP_Plugin_Install_List_Table {
 			[ 'action', 'snippet', '_wpnonce', 'source', 'cloud-bundle-run', 'cloud-bundle-show', 'bundle_share_name', 'cloud_bundles' ]
 		);
 
-		if ( isset( $_REQUEST['action'], $_REQUEST['snippet'], $_REQUEST['source'] ) ) {
-			cloud_lts_process_download_action(
-				sanitize_key( wp_unslash( $_REQUEST['action'] ) ),
-				sanitize_key( wp_unslash( $_REQUEST['source'] ) ),
-				sanitize_key( wp_unslash( $_REQUEST['snippet'] ) )
-			);
+		// Check request is coming form the cloud search page.
+		if ( isset( $_REQUEST['type'] ) && 'cloud_search' === $_REQUEST['type'] ) {
+			if ( isset( $_REQUEST['action'], $_REQUEST['snippet'], $_REQUEST['source'] ) ) {
+				cloud_lts_process_download_action(
+					sanitize_key( wp_unslash( $_REQUEST['action'] ) ),
+					sanitize_key( wp_unslash( $_REQUEST['source'] ) ),
+					sanitize_key( wp_unslash( $_REQUEST['snippet'] ) )
+				);
+			}
 		}
 	}
 
@@ -121,14 +122,14 @@ class Cloud_Search_List_Table extends WP_Plugin_Install_List_Table {
 					<div class="name column-name">
 						<h3>
 							<?php
-							$name_link = $this->get_link_for_name();
+							$link = code_snippets()->cloud_api->get_link_for_cloud_snippet( $item );
 
-							if ( $name_link['cloud-snippet-downloaded'] ) {
-								printf( '<a href="%s">', esc_url( $name_link['cloud-snippet-link'] ) );
+							if ( $link ) {
+								printf( '<a href="%s">', esc_url( code_snippets()->get_snippet_edit_url( $link->local_id ) ) );
 							} else {
 								printf(
 									'<a href="%s" title="%s" class="cloud-snippet-preview thickbox" data-snippet="%s" data-lang="%s">',
-									esc_url( $name_link['cloud-snippet-link'] ),
+									'#TB_inline?&width=700&height=500&inlineId=show-code-preview',
 									esc_attr__( 'Preview this snippet', 'code-snippets' ),
 									esc_attr( $item->id ),
 									esc_attr( Cloud_API::get_type_from_scope( $item->scope ) )
@@ -154,7 +155,7 @@ class Cloud_Search_List_Table extends WP_Plugin_Install_List_Table {
 						<?php echo wp_kses_post( cloud_lts_build_action_links( $item, 'search' ) ); ?>
 					</div>
 					<div class="desc column-description">
-						<p><?php wp_kses_post( $this->process_description( $item->description ) ); ?></p>
+						<p><?php echo wp_kses_post( $this->process_description( $item->description ) ); ?></p>
 						<p class="authors">
 							<cite>
 								<?php
@@ -260,18 +261,6 @@ class Cloud_Search_List_Table extends WP_Plugin_Install_List_Table {
 			</div>
 			<?php
 		}
-	}
-
-	/**
-	 * Define the url for the name anchor tag
-	 *
-	 * @return array The URL to be used.
-	 */
-	protected function get_link_for_name(): array {
-		return [
-			'cloud-snippet-link'       => '#TB_inline?&width=700&height=500&inlineId=show-code-preview',
-			'cloud-snippet-downloaded' => false,
-		];
 	}
 
 	/**

@@ -209,6 +209,7 @@ function get_snippet( int $id = 0, ?bool $network = null ): Snippet {
 	return apply_filters( 'code_snippets/get_snippet', $snippet, $id, $network );
 }
 
+
 /**
  * Ensure the list of shared network snippets is correct if one has been recently activated or deactivated.
  * Write operation.
@@ -423,7 +424,7 @@ function deactivate_snippet( int $id, ?bool $network = null ): ?Snippet {
  * @param int       $id      ID of the snippet to delete.
  * @param bool|null $network Delete from network-wide (true) or site-wide (false) table.
  *
- * @return bool Whether the operation completed successfully.
+ * @return bool Whether the snippet was deleted successfully.
  *
  * @since 2.0.0
  */
@@ -441,6 +442,7 @@ function delete_snippet( int $id, ?bool $network = null ): bool {
 	if ( $result ) {
 		do_action( 'code_snippets/delete_snippet', $id, $network );
 		clean_snippets_cache( $table );
+		code_snippets()->cloud_api->delete_snippet_from_transient_data( $id );
 	}
 
 	return (bool) $result;
@@ -734,6 +736,6 @@ function update_snippet_fields( int $snippet_id, array $fields, ?bool $network =
 	// Update the snippet in the database.
 	$wpdb->update( $table, $clean_fields, array( 'id' => $snippet->id ), null, array( '%d' ) );
 
-	do_action( 'code_snippets/update_snippet', $snippet, $table );
+	do_action( 'code_snippets/update_snippet', $snippet->id, $table );
 	clean_snippets_cache( $table );
 }

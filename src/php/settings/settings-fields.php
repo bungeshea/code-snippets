@@ -8,6 +8,8 @@
 
 namespace Code_Snippets\Settings;
 
+use function Code_Snippets\code_snippets;
+
 /**
  * Retrieve the default setting values
  *

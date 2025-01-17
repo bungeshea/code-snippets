@@ -68,3 +68,62 @@ body.js {
 		}
 	}
 }
+
+.license-status {
+	display: inline-block;
+	padding-right: 2em;
+	line-height: 2;
+	color: #aaa;
+}
+
+.license-status-valid {
+	color: #2ecc40;
+}
+
+.license-status-expired {
+	color: #dc3232;
+}
+
+.wrap[data-active-tab=license] .submit {
+	display: none;
+}
+
+#code_snippets_remove_license {
+	color: #b32d2e;
+	border-color: #b32d2e;
+}
+
+#code_snippets_license_key {
+	font-family: Consolas, Monaco, monospace;
+}
+
+#cloud_token {
+	max-width: 450px;
+    width: 90vw;
+}
+
+.cloud-message {
+	width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.cloud-error {
+    background: #e53935;
+    color: #ffebee;
+}
+
+.cloud-success {
+	background: #43a047;
+	color: #e8f5e9;
+}
+
+.refresh-success {
+    background: #2271b1;
+    color: #ffeb3b;
+}
+
+.cloud-settings tbody tr:nth-child(n+5) {
+    display: none;
+}

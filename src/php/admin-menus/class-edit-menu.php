@@ -5,7 +5,7 @@ namespace Code_Snippets;
 use function Code_Snippets\Settings\get_setting;
 
 /**
- * This class handles the add/edit menu
+ * This class handles the add/edit menu.
  */
 class Edit_Menu extends Admin_Menu {
 
@@ -28,7 +28,9 @@ class Edit_Menu extends Admin_Menu {
 	protected ?Snippet $snippet = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -39,7 +41,9 @@ class Edit_Menu extends Admin_Menu {
 	}
 
 	/**
-	 * Register action and filter hooks
+	 * Register action and filter hooks.
+	 *
+	 * @return void
 	 */
 	public function run() {
 		parent::run();
@@ -68,7 +72,9 @@ class Edit_Menu extends Admin_Menu {
 	}
 
 	/**
-	 * Executed when the menu is loaded
+	 * Executed when the menu is loaded.
+	 *
+	 * @return void
 	 */
 	public function load() {
 		parent::load();
@@ -138,6 +144,8 @@ class Edit_Menu extends Admin_Menu {
 
 	/**
 	 * Enqueue assets for the edit menu
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		$plugin = code_snippets();

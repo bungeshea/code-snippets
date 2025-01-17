@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use 'theme';
 
-.nav-tab .badge, .snippet-type-badge, .go-pro-button .badge {
+.nav-tab .badge, .snippet-type-badge, .go-pro-button .badge, .button .badge {
 	font-size: 10px;
 	text-transform: uppercase;
 	border: 1px solid;
@@ -18,6 +18,11 @@ h3 .snippet-type-badge,
 .snippet-type-option .badge {
 	/* rtl:ignore */
 	margin-left: 3px;
+}
+
+.button .badge {
+	font-size: 8px;
+	text-transform: lowercase;
 }
 
 .nav-tab span,
