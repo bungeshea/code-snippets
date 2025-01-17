@@ -442,7 +442,6 @@ function delete_snippet( int $id, ?bool $network = null ): bool {
 	if ( $result ) {
 		do_action( 'code_snippets/delete_snippet', $id, $network );
 		clean_snippets_cache( $table );
-		code_snippets()->active_snippets->increment_rev( 'all', $network );
 		code_snippets()->cloud_api->delete_snippet_from_transient_data( $id );
 	}
 

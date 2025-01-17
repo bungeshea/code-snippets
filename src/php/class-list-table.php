@@ -307,12 +307,9 @@ class List_Table extends WP_List_Table {
 	 * @return string The content of the column to output.
 	 */
 	protected function column_name( Snippet $snippet ): string {
-		$cloud_link = $this->is_cloud_connected ?
-			code_snippets()->cloud_api->get_link_for_snippet( $snippet ) :
-			null;
 
 		$row_actions = $this->row_actions(
-			$this->get_snippet_action_links( $snippet, $cloud_link ),
+			$this->get_snippet_action_links( $snippet ),
 			apply_filters( 'code_snippets/list_table/row_actions_always_visible', true )
 		);
 
@@ -336,11 +333,6 @@ class List_Table extends WP_List_Table {
 		}
 
 		// Return the name contents.
-		if ( code_snippets()->cloud_api->get_cloud_link( $snippet->id, 'local' ) ) {
-			// Make cloud icon grey to show it is from the cloud.
-			$out = '<span class="dashicons dashicons-cloud cloud-icon cloud-downloaded"></span>' . $out;
-		}
-
 		$out = apply_filters( 'code_snippets/list_table/column_name', $out, $snippet );
 
 		return $out . $row_actions;

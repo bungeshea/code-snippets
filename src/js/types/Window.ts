@@ -1,4 +1,4 @@
-import Prism from 'prismjs'
+import type Prism from 'prismjs'
 import type tinymce from 'tinymce'
 import type { Snippet } from './Snippet'
 import type { CodeEditorInstance, EditorOption, WordPressCodeEditor } from './WordPressCodeEditor'

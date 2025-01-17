@@ -123,7 +123,6 @@ export const TagEditor: React.FC<TagEditorProps> = ({
 				if (ctrlKey || metaKey) {
 					event.preventDefault()
 					triggerCompletion(true)
-
 				} else if (!allowSpaces) {
 					event.preventDefault()
 					addTag()

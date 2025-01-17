@@ -62,6 +62,13 @@ class Plugin {
 	public Active_Snippets $active_snippets;
 
 	/**
+	 * Handles licensing and plugin updates.
+	 *
+	 * @var Licensing
+	 */
+	public Licensing $licensing;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param string $version Current plugin version.
@@ -118,6 +125,7 @@ class Plugin {
 
 		$upgrade = new Upgrade( $this->version, $this->db );
 		add_action( 'plugins_loaded', array( $upgrade, 'run' ), 0 );
+		$this->licensing = new Licensing();
 	}
 
 	/**
@@ -356,7 +364,6 @@ class Plugin {
 				'restAPI'          => [
 					'base'       => esc_url_raw( rest_url() ),
 					'snippets'   => esc_url_raw( rest_url( Snippets_REST_Controller::get_base_route() ) ),
-					'cloud'      => esc_url_raw( rest_url( Cloud_REST_API::get_base_route() ) ),
 					'nonce'      => wp_create_nonce( 'wp_rest' ),
 					'localToken' => $this->cloud_api->get_local_token(),
 				],

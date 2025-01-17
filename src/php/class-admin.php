@@ -4,6 +4,7 @@ namespace Code_Snippets;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use Exception;
 
 /**
  * Functions specific to the administration interface
@@ -270,11 +271,16 @@ class Admin {
 		}
 
 		$welcome = $this->welcome_api->get_banner();
-		$now = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
+
+		try {
+			$now = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
+		} catch ( Exception $e ) {
+			$now = $welcome['start_datetime'];
+		}
 
 		if ( isset( $welcome['key'] ) && ! in_array( $welcome['key'], $dismissed, true ) &&
-		     ( empty( $welcome['start_datetime'] ) || $now > $welcome['start_datetime'] ) &&
-		     ( empty( $welcome['end_datetime'] ) || $now < $welcome['end_datetime'] ) ) {
+		     ( empty( $welcome['start_datetime'] ) || $now >= $welcome['start_datetime'] ) &&
+		     ( empty( $welcome['end_datetime'] ) || $now <= $welcome['end_datetime'] ) ) {
 			$notice = $welcome['key'];
 
 			$text = $welcome['text_free'];

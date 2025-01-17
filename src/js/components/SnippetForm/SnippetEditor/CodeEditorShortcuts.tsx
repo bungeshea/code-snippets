@@ -96,8 +96,8 @@ export const CodeEditorShortcuts: React.FC<CodeEditorShortcutsProps> = ({ editor
 										</> :
 										'Option' === mod ?
 											<span className="mac-key">
-											<kbd className="mac-key">{KEYBOARD_KEYS.Option}</kbd>{SEP}
-										</span> :
+												<kbd className="mac-key">{KEYBOARD_KEYS.Option}</kbd>{SEP}
+											</span> :
 											<><kbd>{KEYBOARD_KEYS[modifier]}</kbd>{SEP}</>}
 								</span>
 							)}

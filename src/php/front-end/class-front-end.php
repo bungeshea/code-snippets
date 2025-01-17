@@ -148,13 +148,7 @@ class Front_End {
 
 			add_action(
 				'wp_enqueue_scripts',
-				function () use ( $found_shortcode_content ) {
-					foreach ( self::get_prism_themes() as $theme => $label ) {
-						if ( strpos( $found_shortcode_content, "is-style-prism-$theme" ) ) {
-							wp_enqueue_style( self::get_prism_theme_style_handle( $theme ) );
-						}
-					}
-
+				function () {
 					wp_enqueue_style( self::PRISM_HANDLE );
 					wp_enqueue_script( self::PRISM_HANDLE );
 				},

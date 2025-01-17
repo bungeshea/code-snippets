@@ -332,10 +332,7 @@ class Cloud_API {
 
 			// Get the cloud snippet revision if in codevault get from cloud_id_rev array otherwise get from cloud.
 			if ( $link->in_codevault ) {
-				$cloud_snippet_revision =
-					$cloud_id_rev[ $cloud_id_int ] ? $cloud_id_rev[ $cloud_id_int ] :
-						$this->get_cloud_snippet_revision( $local_snippet->cloud_id );
-
+				$cloud_snippet_revision = $cloud_id_rev[ $cloud_id_int ] ?? $this->get_cloud_snippet_revision( $local_snippet->cloud_id );
 				$link->update_available = $local_snippet->revision < $cloud_snippet_revision;
 			}
 
