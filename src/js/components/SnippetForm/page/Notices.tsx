@@ -8,17 +8,23 @@ interface DismissibleNoticeProps {
 	classNames?: classnames.Argument
 	onRemove: MouseEventHandler<HTMLButtonElement>
 	children?: ReactNode
+	autoHide?: boolean
 }
 
-const DismissibleNotice: React.FC<DismissibleNoticeProps> = ({ classNames, onRemove, children }) => {
+const DismissibleNotice: React.FC<DismissibleNoticeProps> = ({ classNames, onRemove, children, autoHide = true }) => {
 	useEffect(() => {
-		if (window.CODE_SNIPPETS_EDIT?.scrollToNotices) {
-			window.scrollTo({ top: 0, behavior: 'smooth' })
+		if (autoHide) {
+			const timer = setTimeout(() => {
+				onRemove({} as React.MouseEvent<HTMLButtonElement>)
+			}, 5000)
+			
+			return () => clearTimeout(timer)
 		}
-	}, [])
+		return () => {} // eslint-disable-line
+	}, [autoHide, onRemove])
 
 	return (
-		<div id="message" className={classnames('notice fade is-dismissible', classNames)}>
+		<div id="message" className={classnames('cs-sticky-notice notice fade is-dismissible', classNames)}>
 			<>{children}</>
 
 			<button type="button" className="notice-dismiss" onClick={event => {
@@ -45,6 +51,7 @@ export const Notices: React.FC = () => {
 			<DismissibleNotice
 				classNames="error"
 				onRemove={() => setSnippet(previous => ({ ...previous, code_error: null }))}
+				autoHide={false}
 			>
 				<p>
 					<strong>{sprintf(
