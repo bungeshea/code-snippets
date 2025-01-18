@@ -5,6 +5,7 @@ export interface SourceShortcodeAtts {
 
 export interface ContentShortcodeAtts {
 	id: string
+	name: string
 	php: boolean
 	format: boolean
 	shortcodes: boolean
