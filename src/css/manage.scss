@@ -210,3 +210,115 @@
 .active-snippet .snippet-activation-switch::before {
 	transform: translateX(100%);
 }
+
+.cs-header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	background: white;
+	margin-left: -20px;
+	padding: 0px 20px;
+	border-bottom: 1px solid #C3C4C7;
+}
+
+.cs-top-header {
+	margin-top: 40px;
+	border-top: 1px solid #C3C4C7;
+
+	.cs-logo {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		img{
+			width: 50px;
+		}
+
+		p{
+			font-size: 1.2rem;
+			font-weight: 700;
+		}
+	}
+
+	.cs-top-nav{
+		display: flex;
+		align-items: center;
+		gap: 22px;
+
+		ul{
+			display: flex;
+			align-items: center;
+			gap: 22px;
+			list-style: none;
+
+			li{
+				font-size: 0.8rem;
+				font-weight: 400;
+				margin: 0;
+
+				a{
+					text-decoration: none;
+					color: #000;
+				}
+			}
+		}
+
+		.cs-connect-btn{
+			width: 140px;
+			padding: 8px 16px;
+			border-radius: 5px;
+			font-size: 0.6rem;
+			font-weight: 700;
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			color: #fff;
+			border: none;
+			outline: none;
+		}
+
+		.cs-connect-btn-disabled{
+			background: #ccc;
+			color: #000 !important;
+			
+			svg{
+				stroke: #000;
+			}
+		}
+	}
+}
+
+.cs-secondary-nav {
+	margin-bottom: 50px;
+	
+	ul{
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		list-style: none;
+		margin: 0;
+
+		li{
+			font-size: 0.8rem;
+			font-weight: 400;
+			margin: 0;
+
+			a{
+				display: inline-flex;
+				align-items: center;
+				text-decoration: none;
+				color: #000;
+				gap: 12px;
+				font-size: 1rem;
+				font-weight: 600;
+				padding: 22px 24px;
+			}
+
+			svg{
+				width: 22px;
+				stroke: #000;
+			}
+		}
+	}
+}

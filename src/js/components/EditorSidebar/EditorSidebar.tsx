@@ -20,32 +20,34 @@ export const EditorSidebar = () => {
 
 	return (
 		<div className="snippet-editor-sidebar">
-			<div className="box">
-				{snippet.id ? <ActivationSwitch /> : null}
+			<div className="snippet-editor-sidebar-wrapper">
+				<div className="box">
+					{snippet.id ? <ActivationSwitch /> : null}
 
-				{isNetworkAdmin() ? <MultisiteSharingSettings /> : null}
+					{isNetworkAdmin() ? <MultisiteSharingSettings /> : null}
 
-				{isRTL() ? <RTLControl /> : null}
+					{isRTL() ? <RTLControl /> : null}
 
-				<PriorityInput />
+					<PriorityInput />
 
-				{window.CODE_SNIPPETS_EDIT?.tagOptions.enabled ? <TagsInput /> : null}
+					{window.CODE_SNIPPETS_EDIT?.tagOptions.enabled ? <TagsInput /> : null}
 
-				{snippet.id ?
-					<div className="row-actions visible">
-						<ExportButtons />
-						<DeleteButton />
-					</div> : null}
+					{snippet.id ?
+						<div className="row-actions visible">
+							<ExportButtons />
+							<DeleteButton />
+						</div> : null}
+				</div>
+
+				<p className="submit">
+					<SubmitButton />
+					{isWorking ? <Spinner /> : ''}
+				</p>
+
+				<Notices />
+
+				{'html' === getSnippetType(snippet) ? <ShortcodeInfo /> : null}
 			</div>
-
-			<p className="submit">
-				<SubmitButton />
-				{isWorking ? <Spinner /> : ''}
-			</p>
-
-			<Notices />
-
-			{'html' === getSnippetType(snippet) ? <ShortcodeInfo /> : null}
 		</div>
 	)
 }

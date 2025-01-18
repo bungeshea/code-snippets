@@ -33,6 +33,8 @@ if ( false !== strpos( code_snippets()->version, 'beta' ) ) {
 	echo '</p></div>';
 }
 
+include_once 'partials/top-header.php';
+
 ?>
 
 <div class="wrap">

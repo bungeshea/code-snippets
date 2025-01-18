@@ -1,5 +1,11 @@
 
 .snippet-editor-sidebar {
+	position: relative;
+
+	.snippet-editor-sidebar-wrapper{
+		position: sticky;
+		top: 60px;
+	}
 
 	.button-large {
 		height: 48px;
