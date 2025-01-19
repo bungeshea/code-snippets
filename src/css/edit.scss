@@ -152,3 +152,9 @@ p.snippet-scope, .snippet-scope p {
 .wrap .notice {
 	scroll-margin: 0.75em;
 }
+
+#edit-snippet-form-container .cs-sticky-notice {
+	position: sticky;
+	top: 40px;
+	z-index: 100;
+}

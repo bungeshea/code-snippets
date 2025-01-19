@@ -7,6 +7,7 @@ import { buildShortcodeTag } from '../../../utils/shortcodes'
 import { getSnippetType } from '../../../utils/snippets'
 import { CopyToClipboardButton } from '../../common/CopyToClipboardButton'
 import { useSnippetForm } from '../../../hooks/useSnippetForm'
+import { truncateWords } from '../../../utils/text'
 import type { ShortcodeAtts } from '../../../utils/shortcodes'
 import type { SnippetScope } from '../../../types/Snippet'
 import type { Dispatch, SetStateAction} from 'react'
@@ -117,6 +118,7 @@ const ShortcodeInfo: React.FC = () => {
 				<>
 					<ShortcodeTag atts={{
 						id: snippet.id,
+						name: truncateWords(snippet.name),
 						network: snippet.network ?? isNetworkAdmin(),
 						...options
 					}} />
