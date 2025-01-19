@@ -60,6 +60,12 @@ $inactive-color: #ccc;
 	height: 17px;
 	border-radius: 34px;
 	background-color: #ccc;
+	box-shadow: 0 0px 1px 0px rgba(0, 0, 0, .2);
+    transition: all 200ms ease-in-out !important;
+
+	&:hover {
+		box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.5);
+	}
 
 	&::before {
 		transition: all .4s;
@@ -72,19 +78,11 @@ $inactive-color: #ccc;
 		border-radius: 50%;
 	}
 
-	&:hover::before {
-		transform: translateX(40%);
-	}
-
 	.snippets .active-snippet & {
 		background-color: $active-color;
 
 		&::before {
 			transform: translateX(100%);
-		}
-
-		&:hover::before {
-			transform: translateX(60%);
 		}
 	}
 
